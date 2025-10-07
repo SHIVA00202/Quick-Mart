@@ -1,0 +1,116 @@
+import React, { useState } from 'react'
+import { FaLocationDot } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
+import { FiShoppingCart } from "react-icons/fi";
+import { IoClose } from "react-icons/io5"; // close icon
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { setUserData } from '../redux/userSlice';
+
+function Nav() {
+  const { userData ,currentCity} = useSelector(state => state.user)
+  const [showInfo, setShowInfo] = useState(false)
+  const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const dispatch=useDispatch()
+
+   const handleLogOut = async () => {
+        try {
+            const result = await axios.get("http://localhost:8000/api/auth/signout", { withCredentials: true })
+            dispatch(setUserData(null))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+  return (
+    <div className='w-full h-[80px] flex items-center justify-between px-[20px] fixed top-0 z-[9999] bg-[#fff9f6] shadow-md'>
+      
+      {/* Left: Logo */}
+      <h1 className="text-3xl font-bold text-[#ff4d2d] tracking-wide">
+        Vingo
+      </h1>
+
+      {/* Center: Location + Search (hidden on small) */}
+      <div className='hidden md:flex items-center gap-4'>
+        {/* Location Box */}
+        <div className="w-[160px] h-[50px] bg-white shadow-lg rounded-full flex items-center px-[15px] gap-[10px]">
+          <FaLocationDot size={20} className="text-[#ff4d2d]" />
+          <span className="truncate text-gray-600 text-sm font-medium">{currentCity}</span>
+        </div>
+
+        {/* Search Box */}
+        <div className="w-[280px] h-[50px] bg-white shadow-lg rounded-full items-center px-[15px] gap-[10px] hidden md:flex">
+          <IoIosSearch size={20} className="text-[#ff4d2d]" />
+          <input 
+            type="text" 
+            placeholder="Search delicious food..." 
+            className="flex-1 text-gray-700 text-sm outline-none placeholder-gray-400"
+          />
+        </div>
+      </div>
+
+      {/* Right: Cart + Orders + Profile */}
+      <div className="flex items-center gap-4">
+        
+        {/* Search Icon (for mobile) */}
+        <button 
+          className="block md:hidden text-[#ff4d2d] text-2xl"
+          onClick={() => setShowMobileSearch(true)}
+        >
+          <IoIosSearch />
+        </button>
+
+        {/* Cart */}
+        <div className='relative cursor-pointer'>
+          <FiShoppingCart size={25} className='text-[#ff4d2d]' />
+          <span className='absolute right-[-9px] top-[-12px] text-sm font-semibold text-[#ff4d2d]'>
+            0
+          </span>
+        </div>
+
+        {/* Orders Button */}
+        <button className='hidden md:block px-4 py-2 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/20 transition'>
+          My Orders
+        </button>
+
+        {/* User Avatar */}
+        {userData?.fullname && (
+          <div 
+            className='w-[40px] h-[40px] rounded-full flex items-center justify-center bg-[#ff4d2d] text-white text-[18px] shadow-xl font-semibold cursor-pointer'
+            onClick={() => setShowInfo(prev => !prev)}
+          >
+            {userData.fullname.slice(0, 1)}
+          </div>
+        )}
+
+        {/* User Info Dropdown */}
+        {showInfo && (
+          <div className="absolute top-[80px] right-[10px] w-[180px] bg-white shadow-2xl rounded-xl p-[20px] flex flex-col gap-[10px] z-[9999]">
+            <div className='text-[17px] font-semibold'>{userData.fullname}</div>
+            <div className='text-[#ff4d2d] font-semibold cursor-pointer'onClick={handleLogOut}>Log Out</div>
+          </div>
+        )}
+      </div>
+
+      {/* Mobile Search Overlay */}
+      {showMobileSearch && (
+        <div className="fixed top-0 left-0 w-full h-[80px] bg-white shadow-md flex items-center px-4 gap-3 z-[10000]">
+          <IoIosSearch size={24} className="text-[#ff4d2d]" />
+          <input
+            type="text"
+            placeholder="Search delicious food..."
+            className="flex-1 text-gray-700 text-sm outline-none placeholder-gray-400"
+            autoFocus
+          />
+          <IoClose 
+            size={28} 
+            className="text-gray-600 cursor-pointer" 
+            onClick={() => setShowMobileSearch(false)} 
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Nav
