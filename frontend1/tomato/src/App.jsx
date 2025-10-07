@@ -13,6 +13,8 @@ import AddItem from './pages/AddItem'
 import EditItem from './pages/EditItem'
 import useGetShopByCity from './hooks/useGetShopByCity'
 import useGetItemsByCity from './hooks/useGetItemsByCity'
+import CartPage from './pages/cartPage'
+import CheckOut from './pages/CheckOut'
 
 
 const App = () => {
@@ -31,6 +33,8 @@ const App = () => {
       <Route path='/create-edit-shop' element={userData?<CreateEditShop/>:<Navigate to={"/signin"}/>}/>
       <Route path='/add-item' element={userData?<AddItem/>:<Navigate to={"/signin"}/>}/>
       <Route path='/edit-item/:itemId' element={userData?<EditItem/>:<Navigate to={"/signin"}/>}/>
+      <Route path='/cart' element={userData?<CartPage/>:<Navigate to={"/signin"}/>}/>
+      <Route path='/checkout' element={userData?<CheckOut/>:<Navigate to={"/signin"}/>}/>
 
 
     </Routes>

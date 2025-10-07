@@ -6,12 +6,14 @@ import { IoClose } from "react-icons/io5"; // close icon
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setUserData } from '../redux/userSlice';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Nav() {
-  const { userData ,currentCity} = useSelector(state => state.user)
+  const { userData ,currentCity,cartItems} = useSelector(state => state.user)
   const [showInfo, setShowInfo] = useState(false)
   const [showMobileSearch, setShowMobileSearch] = useState(false)
   const dispatch=useDispatch()
+  const navigate=useNavigate()
 
    const handleLogOut = async () => {
         try {
@@ -61,10 +63,10 @@ function Nav() {
         </button>
 
         {/* Cart */}
-        <div className='relative cursor-pointer'>
+        <div className='relative cursor-pointer' onClick={()=>{navigate("/cart")}}>
           <FiShoppingCart size={25} className='text-[#ff4d2d]' />
           <span className='absolute right-[-9px] top-[-12px] text-sm font-semibold text-[#ff4d2d]'>
-            0
+            {cartItems.length}
           </span>
         </div>
 
