@@ -71,6 +71,29 @@ function CheckOut() {
       console.log(error)
     }
   }
+  const handlePlaceOrder=async () => {
+    try {
+      const result=await axios.post("http://localhost:8000/api/order/place-order",{
+        paymentMethod,
+        deliveryAddress:{
+          text:addressInput,
+          latitude:location.lat,
+          longitude:location.lon
+        },
+        totalAmount:AmountWithDeliveryFee,
+        cartItems
+      },{withCredentials:true})
+
+
+
+      console.log(result.data)
+      navigate("/order-placed")
+      
+    
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   
 
@@ -170,7 +193,7 @@ function CheckOut() {
 </div>
 </div>
         </section>
-        <button className='w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold'> {paymentMethod=="cod"?"Place Order":"Pay & Place Order"}</button>
+        <button className='w-full bg-[#ff4d2d] hover:bg-[#e64526] text-white py-3 rounded-xl font-semibold' onClick={handlePlaceOrder}> {paymentMethod=="cod"?"Place Order":"Pay & Place Order"}</button>
 
       </div>
     </div>

@@ -9,6 +9,7 @@ import cors from "cors"
 import userRouter from "./routes/userroutes.js"
 import itemRouter from "./routes/itemroutes.js"
 import shopRouter from "./routes/shoproutes.js"
+import orderRouter from "./routes/ordermodel.js"
 
 const app=express()
 
@@ -23,10 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
-
 app.use("/api/shop",shopRouter)
-
 app.use("/api/item",itemRouter)
+app.use("/api/order",orderRouter)
 
 
 
