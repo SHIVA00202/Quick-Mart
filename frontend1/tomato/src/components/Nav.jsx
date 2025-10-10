@@ -71,7 +71,7 @@ function Nav() {
         </div>
 
         {/* Orders Button */}
-        <button className='hidden md:block px-4 py-2 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/20 transition'>
+        <button className='hidden md:block px-4 py-2 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/20 transition' onClick={()=>{navigate("/my-orders")}}>
           My Orders
         </button>
 

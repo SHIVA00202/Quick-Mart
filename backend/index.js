@@ -9,7 +9,8 @@ import cors from "cors"
 import userRouter from "./routes/userroutes.js"
 import itemRouter from "./routes/itemroutes.js"
 import shopRouter from "./routes/shoproutes.js"
-import orderRouter from "./routes/ordermodel.js"
+import orderRouter from "./routes/orderroutes.js"
+
 
 const app=express()
 
