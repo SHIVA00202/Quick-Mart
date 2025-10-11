@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NavOwner = () => {
   const navigate = useNavigate();
-  const { userData } = useSelector(state => state.user);
+  const { userData,myOrders } = useSelector(state => state.user);
   const { myShopData } = useSelector(state => state.owner);
   const [showInfo, setShowInfo] = useState(false);
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const NavOwner = () => {
       <div className='hidden md:flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium' onClick={() => navigate("/my-orders")}>
         <TbReceipt2 size={20}/>
         <span>My Orders</span>
-        <span className='absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]'>0</span>
+        <span className='absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]'>{myOrders?.length}</span>
       </div>
 
       <div
@@ -50,7 +50,7 @@ const NavOwner = () => {
         onClick={() => navigate("/my-orders")}
       >
         <TbReceipt2 size={20}/> 
-        <span className='absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]'>0</span>                     
+        <span className='absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]'>{myOrders?.length}</span>                     
       </div>
 
       {userData?.fullname && (
