@@ -89,6 +89,8 @@ function CheckOut() {
 
       console.log(result.data)
       dispatch(addMyOrder(result.data))
+
+
       navigate("/order-placed")
       
     
