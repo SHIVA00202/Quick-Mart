@@ -66,7 +66,7 @@ const dispatch=useDispatch()
      availableBoys.map((b,index)=>(
         <div className='text-gray-800'>{b.fullName}-{b.mobile}</div>
      ))
-   ):<div> Waiting for delivery boy to accept</div>}
+   ):data.shopOrders.assignedDeliveryBoy?<div>{data.shopOrders.assignedDeliveryBoy.fullName}-{data.shopOrders.assignedDeliveryBoy.mobile}</div>:<div>Waiting for delivery boy to accept</div>}
 </div>}
 
 
