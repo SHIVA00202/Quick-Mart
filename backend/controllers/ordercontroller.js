@@ -158,7 +158,7 @@ export const updateOrderStatus = async (req, res) => {
             shopOrder.assignment = deliveryAssignment._id
             deliveryBoysPayload = availableBoys.map(b => ({
                 id: b._id,
-                fullName: b.fullName,
+                fullName: b.fullname,
                 longitude: b.location.coordinates?.[0],
                 latitude: b.location.coordinates?.[1],
                 mobile: b.mobile
