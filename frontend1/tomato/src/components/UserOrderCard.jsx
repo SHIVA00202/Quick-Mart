@@ -38,13 +38,15 @@ function UserOrderCard({ data }) {
             </div>
 
             {data.shopOrders.map((shopOrder, index) => (
-                <div className='"border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
+                
+                <div className='border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
                     <p>{shopOrder.shop.name}</p>
 
                     <div className='flex space-x-4 overflow-x-auto pb-2'>
                         {shopOrder.shopOrderItems.map((item, index) => (
                             <div key={index} className='flex-shrink-0 w-40 border rounded-lg p-2 bg-white"'>
-                                <img src={item.item.image} alt="" className='w-full h-24 object-cover rounded' />
+                                {console.log(item)}
+                                <img src={item?.item?.image} className='w-full h-24 object-cover rounded' />
                                 <p className='text-sm font-semibold mt-1'>{item.name}</p>
                                 <p className='text-xs text-gray-500'>Qty: {item.quantity} x ₹{item.price}</p>                              
 

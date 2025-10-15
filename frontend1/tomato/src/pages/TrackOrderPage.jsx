@@ -41,7 +41,7 @@ function TrackOrderPage() {
          {shopOrder.status!="delivered"?<>
 {shopOrder.assignedDeliveryBoy?
 <div className='text-sm text-gray-700'>
-<p className='font-semibold'><span>Delivery Boy Name:</span> {shopOrder.assignedDeliveryBoy.fullName}</p>
+<p className='font-semibold'><span>Delivery Boy Name:</span> {shopOrder.assignedDeliveryBoy.fullname}</p>
 <p className='font-semibold'><span>Delivery Boy contact No.:</span> {shopOrder.assignedDeliveryBoy.mobile}</p>
 </div>:<p className='font-semibold'>Delivery Boy is not assigned yet.</p>}
          </>:<p className='text-green-600 font-semibold text-lg'>Delivered</p>}
@@ -49,7 +49,7 @@ function TrackOrderPage() {
 {(shopOrder.assignedDeliveryBoy && shopOrder.status !== "delivered") && (
   <div className="h-[400px] w-full rounded-2xl overflow-hidden shadow-md">
     <DeliveryBoyTracking data={{
-      deliveryBoyLocation:liveLocations[shopOrder.assignedDeliveryBoy._id] || {
+      deliveryBoyLocation: {
         lat: shopOrder.assignedDeliveryBoy.location.coordinates[1],
         lon: shopOrder.assignedDeliveryBoy.location.coordinates[0]
       },

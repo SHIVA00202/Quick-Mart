@@ -38,6 +38,7 @@ const shopOrderSchema = new mongoose.Schema({
         default: null
     }
 
+
 }, { timestamps: true })
 
 const orderSchema = new mongoose.Schema({
@@ -60,6 +61,18 @@ const orderSchema = new mongoose.Schema({
     }
     ,
     shopOrders: [shopOrderSchema],
+    payment:{
+        type:Boolean,
+        default:false
+    },
+    razorpayOrderId:{
+        type:String,
+        default:""
+    },
+    razorpayPaymentId:{
+        type:String,
+        default:""    
+    }
 }, { timestamps: true })
 
 const Order = mongoose.model("Order", orderSchema)
