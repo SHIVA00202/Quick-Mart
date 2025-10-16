@@ -6,6 +6,7 @@ import { FaCircleChevronLeft } from "react-icons/fa6";
 import { FaCircleChevronRight } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
 import FoodCard from './FoodCard';
+import { useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
 
@@ -17,6 +18,7 @@ const UserDashboard = () => {
    const [showLeftShopButton,setShowLeftShopButton]=useState(false)
   const [showRightShopButton,setShowRightShopButton]=useState(false)
    const [updatedItemsList,setUpdatedItemsList]=useState([])
+  const navigate=useNavigate()
 
 
   const handleFilterByCategory=(category)=>{
