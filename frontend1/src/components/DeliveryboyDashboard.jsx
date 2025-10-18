@@ -9,6 +9,7 @@ const DeliveryboyDashboard = () => {
   const [availableAssignments,setAvailableAssignments]=useState(null)
   const [currentOrder,setCurrentOrder]=useState(null)
   const [showOtpBox,setShowOtpBox]=useState(false)
+  const [otp,setOtp]=useState("")
   const getAssignments = async () => {
     try {
       const result = await axios.get(`http://localhost:8000/api/order/get-assignments`, { withCredentials: true })
@@ -36,6 +37,35 @@ const DeliveryboyDashboard = () => {
       console.log(error)
     }
   }
+  const sendOtp=async () => {
+   
+    try {
+      const result=await axios.post(`http://localhost:8000/api/order/send-delivery-otp`,{
+        orderId:currentOrder._id,shopOrderId:currentOrder.shopOrder._id
+      },{withCredentials:true})
+     
+       setShowOtpBox(true)
+    console.log(result.data)
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+   const verifyOtp=async () => {
+    
+    try {
+      const result=await axios.post(`http://localhost:8000/api/order/verify-delivery-otp`,{
+        orderId:currentOrder._id,shopOrderId:currentOrder.shopOrder._id,otp
+      },{withCredentials:true})
+    console.log(result.data)
+    
+    location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   useEffect(() => {
     getAssignments()
     getCurrentOrder()
@@ -83,13 +113,13 @@ availableAssignments.map((a,index)=>(
 
  <DeliveryBoyTracking data={currentOrder}/>
 
- {!showOtpBox ? <button className='mt-4 w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-xl shadow-md hover:bg-green-600 active:scale-95 transition-all duration-200' onClick={() => setShowOtpBox(true)} >
+ {!showOtpBox ? <button className='mt-4 w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-xl shadow-md hover:bg-green-600 active:scale-95 transition-all duration-200' onClick={sendOtp}  >
   Mark As Delivered
  </button>:<div className='mt-4 p-4 border rounded-xl bg-gray-50'>
 <p className='text-sm font-semibold mb-2'>Enter Otp send to <span className='text-orange-500'>{currentOrder.user.fullName}</span></p>
-<input type="text" className='w-full border px-3 py-2 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-orange-400' placeholder='Enter OTP' />
+<input type="text" className='w-full border px-3 py-2 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-orange-400' placeholder='Enter OTP' onChange={(e)=>setOtp(e.target.value)} value={otp} />
 
-<button className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all" >Submit OTP</button>
+<button className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all" onClick={verifyOtp}>Submit OTP</button>
   </div>}
 
 

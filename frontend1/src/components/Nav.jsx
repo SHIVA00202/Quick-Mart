@@ -134,5 +134,4 @@ handleSearchItems()
     </div>
   )
 }
-
 export default Nav
