@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoClose } from "react-icons/io5"; // close icon
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setUserData } from '../redux/userSlice';
+import { setSearchItems, setUserData } from '../redux/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 function Nav() {
   const { userData ,currentCity,cartItems} = useSelector(state => state.user)
   const [showInfo, setShowInfo] = useState(false)
   const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [query,setQuery]=useState("")
   const dispatch=useDispatch()
   const navigate=useNavigate()
 
@@ -23,6 +24,23 @@ function Nav() {
             console.log(error)
         }
     }
+    const handleSearchItems=async () => {
+      try {
+        const result=await axios.get(`http://localhost:8000/api/item/search-items?query=${query}&city=${currentCity}`,{withCredentials:true})
+    dispatch(setSearchItems(result.data))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    useEffect(()=>{
+        if(query){
+handleSearchItems()
+        }else{
+              dispatch(setSearchItems(null))
+        }
+
+    },[query])
 
   return (
     <div className='w-full h-[80px] flex items-center justify-between px-[20px] fixed top-0 z-[9999] bg-[#fff9f6] shadow-md'>
@@ -47,6 +65,7 @@ function Nav() {
             type="text" 
             placeholder="Search delicious food..." 
             className="flex-1 text-gray-700 text-sm outline-none placeholder-gray-400"
+            onChange={(e)=>setQuery(e.target.value)} value={query}
           />
         </div>
       </div>
@@ -103,6 +122,7 @@ function Nav() {
             placeholder="Search delicious food..."
             className="flex-1 text-gray-700 text-sm outline-none placeholder-gray-400"
             autoFocus
+            onChange={(e)=>setQuery(e.target.value)} value={query}
           />
           <IoClose 
             size={28} 
