@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import Navboy from './Navboy';
 import axios from 'axios';
 import DeliveryBoyTracking from './DeliveryBoyTracking';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 import { ClipLoader } from 'react-spinners'
 import { serverUrl } from '../App';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const DeliveryboyDashboard = () => {
   const { userData, socket } = useSelector(state => state.user);
