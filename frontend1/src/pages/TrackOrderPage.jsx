@@ -9,7 +9,10 @@ import { useSelector } from 'react-redux'
 function TrackOrderPage() {
     const { orderId } = useParams()
     const [currentOrder, setCurrentOrder] = useState() 
-    const navigate = useNavigate()   
+    const navigate = useNavigate() 
+    const { socket } = useSelector(state => state.user)
+    const [liveLocations, setLiveLocations] = useState({}) 
+     
     const handleGetOrder = async () => {
         try {
             const result = await axios.get(`http://localhost:8000/api/order/get-order-by-id/${orderId}`, { withCredentials: true })
@@ -18,6 +21,15 @@ function TrackOrderPage() {
             console.log(error)
         }
     }
+    useEffect(()=>{
+socket.on('updateDeliveryLocation',({deliveryBoyId,latitude,longitude})=>{
+setLiveLocations(prev=>({
+  ...prev,
+  [deliveryBoyId]:{lat:latitude,lon:longitude}
+}))
+})
+    },[socket])
+
 
  
 
@@ -49,7 +61,7 @@ function TrackOrderPage() {
 {(shopOrder.assignedDeliveryBoy && shopOrder.status !== "delivered") && (
   <div className="h-[400px] w-full rounded-2xl overflow-hidden shadow-md">
     <DeliveryBoyTracking data={{
-      deliveryBoyLocation: {
+      deliveryBoyLocation:liveLocations[shopOrder.assignedDeliveryBoy._id] || {
         lat: shopOrder.assignedDeliveryBoy.location.coordinates[1],
         lon: shopOrder.assignedDeliveryBoy.location.coordinates[0]
       },
