@@ -17,7 +17,7 @@ export const signUp=async(req,res)=>{
              return res.status(400).json({message:"enter a valid mobile number  "})
 
         }
-        const hashedpassword=await bcrypt.hash(password,10)
+        const hashedpassword= bcrypt.hash(password,10)
         user=await User.create({
             fullname,
             email,
