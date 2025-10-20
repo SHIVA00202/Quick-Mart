@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { serverUrl } from '../App';
 
 const Navboy = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Navboy = () => {
 
   const handleLogOut = async () => {
     try {
-      const result = await axios.get("http://localhost:8000/api/auth/signout", { withCredentials: true });
+      const result = await axios.get(`${serverUrl}/api/auth/signout`, { withCredentials: true });
       dispatch(setUserData(null));
     } catch (error) {
       console.log(error);

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setSearchItems, setUserData } from '../redux/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { serverUrl } from '../App';
 
 function Nav() {
   const { userData ,currentCity,cartItems} = useSelector(state => state.user)
@@ -18,7 +19,7 @@ function Nav() {
 
    const handleLogOut = async () => {
         try {
-            const result = await axios.get("http://localhost:8000/api/auth/signout", { withCredentials: true })
+            const result = await axios.get(`${serverUrl}/api/auth/signout`, { withCredentials: true })
             dispatch(setUserData(null))
         } catch (error) {
             console.log(error)
@@ -26,7 +27,7 @@ function Nav() {
     }
     const handleSearchItems=async () => {
       try {
-        const result=await axios.get(`http://localhost:8000/api/item/search-items?query=${query}&city=${currentCity}`,{withCredentials:true})
+        const result=await axios.get(`${serverUrl}/api/item/search-items?query=${query}&city=${currentCity}`,{withCredentials:true})
     dispatch(setSearchItems(result.data))
       } catch (error) {
         console.log(error)

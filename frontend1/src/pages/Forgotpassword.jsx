@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from "react-spinners"
+import { serverUrl } from '../App';
 
 const Forgotpassword = () => {
     const [step, setStep] = useState(1)
@@ -21,7 +22,7 @@ const Forgotpassword = () => {
     const handleSendOtp = async () => {
         setLoading(true)
         try {
-            const result = await axios.post("http://localhost:8000/api/auth/send-otp", { email }, { withCredentials: true })
+            const result = await axios.post(`${serverUrl}/api/auth/send-otp`, { email }, { withCredentials: true })
             console.log(result)
             setErr("")
             setStep(2)
@@ -37,7 +38,7 @@ const Forgotpassword = () => {
     const handleVerifyOtp = async () => {
         setLoading(true)
         try {
-            const result = await axios.post("http://localhost:8000/api/auth/verify-otp", { email, otp }, { withCredentials: true })
+            const result = await axios.post(`${serverUrl}/api/auth/verify-otp`, { email, otp }, { withCredentials: true })
             console.log(result)
             setErr("")
             setStep(3)
@@ -56,7 +57,7 @@ const Forgotpassword = () => {
             return null
         }
         try {
-            const result = await axios.post("http://localhost:8000/api/auth/reset-password", { email, newPassword }, { withCredentials: true })
+            const result = await axios.post(`${serverUrl}/api/auth/reset-password`, { email, newPassword }, { withCredentials: true })
             console.log(result)
             setErr("")
             navigate("/signin")

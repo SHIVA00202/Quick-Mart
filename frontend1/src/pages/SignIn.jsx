@@ -9,6 +9,7 @@ import { auth } from '../../firebase';
 import { ClipLoader } from "react-spinners"
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+import { serverUrl } from '../App';
 
 const SignIn = () => {
     const primaryColor = "#ff4d2d";
@@ -27,7 +28,7 @@ const SignIn = () => {
     const handleSignin = async () => {
         setLoading(true)
         try {
-            const result = await axios.post("http://localhost:8000/api/auth/signin", {
+            const result = await axios.post(`${serverUrl}/api/auth/signin`, {
                 email, password
             }, { withCredentials: true })
             console.log(result)
@@ -48,7 +49,7 @@ const SignIn = () => {
         const result = await signInWithPopup(auth, provider)
 
         try {
-            const { data } = await axios.post("http://localhost:8000/api/auth/google-auth", {
+            const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
                 email: result.user.email,
             }, { withCredentials: true })
             dispatch(setUserData(data))

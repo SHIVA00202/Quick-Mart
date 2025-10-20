@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { IoIosArrowRoundBack } from "react-icons/io";
 import DeliveryBoyTracking from '../components/DeliveryBoyTracking'
 import { useSelector } from 'react-redux'
+import { serverUrl } from '../App'
 function TrackOrderPage() {
     const { orderId } = useParams()
     const [currentOrder, setCurrentOrder] = useState() 
@@ -15,7 +16,7 @@ function TrackOrderPage() {
      
     const handleGetOrder = async () => {
         try {
-            const result = await axios.get(`http://localhost:8000/api/order/get-order-by-id/${orderId}`, { withCredentials: true })
+            const result = await axios.get(`${serverUrl}/api/order/get-order-by-id/${orderId}`, { withCredentials: true })
             setCurrentOrder(result.data)
         } catch (error) {
             console.log(error)

@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import axios from 'axios';
 import { setMyShopData } from '../redux/ownerSlice';
 import { ClipLoader } from 'react-spinners';
+import { serverUrl } from '../App';
 function EditItem() {
     const navigate = useNavigate()
     const { myShopData } = useSelector(state => state.owner)
@@ -50,7 +51,7 @@ function EditItem() {
             if (backendImage) {
                 formData.append("image", backendImage)
             }
-            const result = await axios.post(`http://localhost:8000/api/item/edit-item/${itemId}`, formData, { withCredentials: true })
+            const result = await axios.post(`${serverUrl}/api/item/edit-item/${itemId}`, formData, { withCredentials: true })
             dispatch(setMyShopData(result.data))
             setLoading(false)
             navigate("/")
@@ -63,7 +64,7 @@ function EditItem() {
     useEffect(()=>{
   const handleGetItemById=async () => {
     try {
-       const result=await axios.get(`http://localhost:8000/api/item/get-by-id/${itemId}`,{withCredentials:true}) 
+       const result=await axios.get(`${serverUrl}/api/item/get-by-id/${itemId}`,{withCredentials:true}) 
        setCurrentItem(result.data)
 
     } catch (error) {

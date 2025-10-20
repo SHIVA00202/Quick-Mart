@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  setCurrentAddress, setCurrentCity, setCurrentState, setUserData } from '../redux/userSlice'
 import { setAddress, setLocation } from '../redux/mapSlice'
+import { serverUrl } from '../App'
 
 function useUpdateLocation() {
     const dispatch=useDispatch()
@@ -10,7 +11,7 @@ function useUpdateLocation() {
  
     useEffect(()=>{
 const updateLocation=async (lat,lon) => {
-    const result=await axios.post(`http://localhost:8000/api/user/update-location`,{lat,lon},{withCredentials:true})
+    const result=await axios.post(`${serverUrl}/api/user/update-location`,{lat,lon},{withCredentials:true})
     console.log(result.data)
 }
 

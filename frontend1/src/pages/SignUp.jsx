@@ -9,6 +9,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { ClipLoader } from "react-spinners"
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+import { serverUrl } from '../App';
 
 
 // ...existing code...
@@ -33,7 +34,7 @@ const SignUp = () => {
     const handleSignUp = async () => {
         setLoading(true)
         try {
-            const result = await axios.post("http://localhost:8000/api/auth/signup", {
+            const result = await axios.post(`${serverUrl}/api/auth/signup`, {
                 fullname, email, password, mobile, role
             }, { withCredentials: true })
             dispatch(setUserData(result.data))
@@ -58,7 +59,7 @@ const SignUp = () => {
         const result = await signInWithPopup(auth, provider)
         console.log(result)
         try {
-            const { data } = await axios.post("http://localhost:8000/api/auth/google-auth", {
+            const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
                 fullName: result.user.displayName,
                 email: result.user.email,
                 role,

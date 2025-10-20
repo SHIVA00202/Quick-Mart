@@ -13,6 +13,7 @@ import axios from 'axios';
 import { FaMobileScreenButton } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import { addMyOrder } from '../redux/userSlice';
+import { serverUrl } from '../App';
 
 function RecenterMap({ location }) {
   if (location.lat && location.lon) {
@@ -74,7 +75,7 @@ function CheckOut() {
   }
   const handlePlaceOrder = async () => {
     try {
-      const result = await axios.post("http://localhost:8000/api/order/place-order", {
+      const result = await axios.post(`${serverUrl}/api/order/place-order`, {
         paymentMethod,
         deliveryAddress: {
           text: addressInput,
@@ -113,7 +114,7 @@ function CheckOut() {
       order_id: razorOrder.id,
       handler: async function (response) {
         try {
-          const result = await axios.post(`http://localhost:8000/api/order/verify-payment`, {
+          const result = await axios.post(`${serverUrl}/api/order/verify-payment`, {
             razorpay_payment_id: response.razorpay_payment_id,
             orderId
           }, { withCredentials: true })

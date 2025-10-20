@@ -5,6 +5,7 @@ import axios from 'axios';
 import DeliveryBoyTracking from './DeliveryBoyTracking';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ClipLoader } from 'react-spinners'
+import { serverUrl } from '../App';
 
 const DeliveryboyDashboard = () => {
   const { userData, socket } = useSelector(state => state.user);
@@ -50,7 +51,7 @@ return ()=>{
 
   const getAssignments = async () => {
     try {
-      const result = await axios.get(`http://localhost:8000/api/order/get-assignments`, { withCredentials: true })
+      const result = await axios.get(`${serverUrl}/api/order/get-assignments`, { withCredentials: true })
 
       setAvailableAssignments(result.data)
     } catch (error) {
@@ -60,7 +61,7 @@ return ()=>{
 
   const getCurrentOrder = async () => {
     try {
-      const result = await axios.get(`http://localhost:8000/api/order/get-current-order`, { withCredentials: true })
+      const result = await axios.get(`${serverUrl}/api/order/get-current-order`, { withCredentials: true })
       setCurrentOrder(result.data)
     } catch (error) {
       console.log(error)
@@ -68,7 +69,7 @@ return ()=>{
   }
   const acceptOrder = async (assignmentId) => {
     try {
-      const result = await axios.get(`http://localhost:8000/api/order/accept-order/${assignmentId}`, { withCredentials: true })
+      const result = await axios.get(`${serverUrl}/api/order/accept-order/${assignmentId}`, { withCredentials: true })
       console.log(result.data)
       await getCurrentOrder()
     } catch (error) {
@@ -78,7 +79,7 @@ return ()=>{
   const sendOtp = async () => {
     setLoading(true)
     try {
-      const result = await axios.post(`http://localhost:8000/api/order/send-delivery-otp`, {
+      const result = await axios.post(`${serverUrl}/api/order/send-delivery-otp`, {
         orderId: currentOrder._id, shopOrderId: currentOrder.shopOrder._id
       }, { withCredentials: true })
 
@@ -94,7 +95,7 @@ return ()=>{
     setMessage("")
 
     try {
-      const result = await axios.post(`http://localhost:8000/api/order/verify-delivery-otp`, {
+      const result = await axios.post(`${serverUrl}/api/order/verify-delivery-otp`, {
         orderId: currentOrder._id, shopOrderId: currentOrder.shopOrder._id, otp
       }, { withCredentials: true })
 
@@ -112,7 +113,7 @@ return ()=>{
   const handleTodayDeliveries = async () => {
 
     try {
-      const result = await axios.get(`http://localhost:8000/api/order/get-today-deliveries`, { withCredentials: true })
+      const result = await axios.get(`${serverUrl}/api/order/get-today-deliveries`, { withCredentials: true })
       console.log(result.data)
       setTodayDeliveries(result.data)
     } catch (error) {

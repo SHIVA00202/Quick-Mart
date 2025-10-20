@@ -7,6 +7,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaUtensils } from "react-icons/fa";
 import FoodCard from '../components/FoodCard';
 import { FaArrowLeft } from "react-icons/fa";
+import { serverUrl } from '../App';
 function Shop() {
     const {shopId}=useParams()
     const [items,setItems]=useState([])
@@ -14,7 +15,7 @@ function Shop() {
     const navigate=useNavigate()
     const handleShop=async () => {
         try {
-            const result=await axios.get(`http://localhost:8000/api/item/get-by-shop/${shopId}`,{withCredentials:true}) 
+            const result=await axios.get(`${serverUrl}/api/item/get-by-shop/${shopId}`,{withCredentials:true}) 
            setShop(result.data.shop)
            setItems(result.data.items)
         } catch (error) {

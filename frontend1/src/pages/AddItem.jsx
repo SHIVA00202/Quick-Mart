@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import { setMyShopData } from '../redux/ownerSlice';
 import { ClipLoader } from 'react-spinners';
+import { serverUrl } from '../App';
 function AddItem() {
     const navigate = useNavigate()
     const { myShopData } = useSelector(state => state.owner)
@@ -49,7 +50,7 @@ function AddItem() {
             if (backendImage) {
                 formData.append("image", backendImage)
             }
-            const result = await axios.post("http://localhost:8000/api/item/add-item", formData, { withCredentials: true })
+            const result = await axios.post(`${serverUrl}/api/item/add-item`, formData, { withCredentials: true })
             dispatch(setMyShopData(result.data))
             setLoading(false)
             navigate("/")
