@@ -29,8 +29,8 @@ app.set("io",io)
 const port=process.env.PORT || 5000
 app.use(cors({
     origin:"https://quick-mart-frontend.onrender.com"
-    credentials:true,
-     methods:["GET","POST"]
+    credentials:true
+     
 
 
 }))
