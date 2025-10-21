@@ -20,7 +20,8 @@ const server=http.createServer(app)
 const io=new Server(server,{
     cors:{
         origin:"https://quick-mart-1frontend-fronded.onrender.com",
-        credentials:true
+        credentials:true,
+        methods:['POST','GET']
     }
 })
 app.set("io",io)
