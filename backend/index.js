@@ -19,16 +19,15 @@ const app=express()
 const server=http.createServer(app)
 const io=new Server(server,{
     cors:{
-        origin:"https://quick-mart-frontend.onrender.com"
-        credentials:true,
-        methods:["GET","POST"]
+        origin:"https://quick-mart-frontend.onrender.com",
+        credentials:true
     }
 })
 app.set("io",io)
 
 const port=process.env.PORT || 5000
 app.use(cors({
-    origin:"https://quick-mart-frontend.onrender.com"
+    origin:"https://quick-mart-frontend.onrender.com",
     credentials:true
      
 
