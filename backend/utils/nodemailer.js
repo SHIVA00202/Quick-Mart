@@ -5,7 +5,7 @@ dotenv.config()
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
-  secure: false, // TLS
+  secure: true, // TLS
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASS,
