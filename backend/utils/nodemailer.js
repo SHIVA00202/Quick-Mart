@@ -3,28 +3,23 @@ import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
 const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
+  service: "Gmail",
   port: 465,
-  secure: true, // TLS
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASS,
   },
 });
 
-export const sendOtpMail = async (to, otp) => {
-  try {
+export const sendOtpMail=async (to,otp) => {
     await transporter.sendMail({
-      from: process.env.EMAIL,
-      to,
-      subject: "Reset Your Password",
-      html: `<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`,
-    });
-    console.log("✅ OTP sent to", to);
-  } catch (err) {
-    console.error("❌ send otp error", err);
-  }
-};
+        from:process.env.EMAIL,
+        to,
+        subject:"Reset Your Password",
+        html:`<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`
+    })
+}
 
 export const sendDeliveryOtpMail =async (user,otp) => {
     await transporter.sendMail({
