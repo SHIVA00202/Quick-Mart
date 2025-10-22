@@ -26,6 +26,7 @@ import { setSocket } from './redux/userSlice'
 
 
 export const serverUrl="https://quick-mart-1backend-deploy.onrender.com"
+console.log("hello ")
 const App = () => {
   const dispatch=useDispatch()
   useGetCurrentUser()
