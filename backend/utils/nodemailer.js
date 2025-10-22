@@ -4,7 +4,7 @@ import { createTransport } from "nodemailer";
 
 import dotenv from "dotenv"
 dotenv.config()
-const sendOtpMail = async (to, otp) => {
+export const sendOtpMail = async (to, otp) => {
   const transport = createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -21,10 +21,8 @@ const sendOtpMail = async (to, otp) => {
     html,
   });
 };
-export default sendOtpMail;
 
-
- const sendDeliveryOtpMail =async (user,otp) => {
+ export const sendDeliveryOtpMail =async (user,otp) => {
    const transport = createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -41,7 +39,7 @@ export default sendOtpMail;
     html,
   });
 };
-export default sendDeliveryOtpMail;
+
 
   
   
