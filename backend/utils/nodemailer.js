@@ -1,46 +1,31 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-dotenv.config();
+import nodemailer from "nodemailer"
 
-// Nodemailer transporter using Brevo SMTP
+import dotenv from "dotenv"
+dotenv.config()
 const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
+  service: "Gmail",
   port: 465,
-  secure: true, // use TLS
+  secure: true, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL,       // your verified Brevo sender email
-    pass: process.env.SMTP_PASS,   // your Brevo SMTP key (NOT your email password)
+    user: process.env.EMAIL,
+    pass: process.env.PASS,
   },
 });
 
-// Send OTP for password reset
-export const sendOtpMail = async (to, otp) => {
-  try {
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL,
-      to,
-      subject: "Reset Your Password",
-      html: `<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`,
-    });
-    console.log("✅ OTP sent:", info.messageId);
-  } catch (err) {
-    console.error("❌ Failed to send OTP:", err);
-    throw err; // Important: lets API know sending failed
-  }
-};
+export const sendOtpMail=async (to,otp) => {
+    await transporter.sendMail({
+        from:process.env.EMAIL,
+        to,
+        subject:"Reset Your Password",
+        html:`<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`
+    })
+}
 
-// Send OTP for delivery
-export const sendDeliveryOtpMail = async (user, otp) => {
-  try {
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: user.email,
-      subject: "Your Delivery OTP",
-      html: `<p>Your OTP for delivery is <b>${otp}</b>. It expires in 5 minutes.</p>`,
-    });
-    console.log("✅ Delivery OTP sent:", info.messageId);
-  } catch (err) {
-    console.error("❌ Failed to send delivery OTP:", err);
-    throw err;
-  }
-};
+export const sendDeliveryOtpMail =async (user,otp) => {
+    await transporter.sendMail({
+        from:process.env.EMAIL,
+        to:user.email,
+        subject:"Your Delivery OTP",
+        html:`<p>Your OTP for delivery is <b>${otp}</b>. It expires in 5 minutes.</p>`
+    })
+}
