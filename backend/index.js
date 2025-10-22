@@ -47,5 +47,5 @@ socketHandler(io)
 
 server.listen(port,()=>{
     connectDb();
-    console.log(`server started at port ${port}`)
+    console.log(`server started port  at port ${port}`)
 })
