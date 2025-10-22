@@ -13,7 +13,7 @@ export const sendOtpMail = async (to, otp) => {
       pass: process.env.PASS,
     },
   });
-  const html = `<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`;
+  const html = `<p>Your OTP for password rreset is <b>${otp}</b>. It expires in 5 minutes.</p>`;
   await transport.sendMail({
     from: process.env.EMAIL,
     to,
