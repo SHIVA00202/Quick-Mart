@@ -1,9 +1,5 @@
-import nodemailer from "nodemailer"
 import { createTransport } from "nodemailer";
 
-
-import dotenv from "dotenv"
-dotenv.config()
 export const sendOtpMail = async (to, otp) => {
   const transport = createTransport({
     host: "smtp.gmail.com",
@@ -21,6 +17,7 @@ export const sendOtpMail = async (to, otp) => {
     html,
   });
 };
+export default sendOtpMail;
 
  export const sendDeliveryOtpMail =async (user,otp) => {
    const transport = createTransport({
