@@ -50,26 +50,27 @@ const SignUp = () => {
         }
     }
 
-    const handleGoogleAuth = async () => {
-        console.log("hello everyone ")
-        if (!mobile) {
-            return setErr("mobile no is required")
-        }
-        const provider = new GoogleAuthProvider()
-        const result = await signInWithPopup(auth, provider)
-        console.log(result)
-        try {
-            const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
-                fullName: result.user.displayName,
-                email: result.user.email,
-                role,
-                mobile
-            }, { withCredentials: true })
-            dispatch(setUserData(data))
-        } catch (error) {
-            console.log(error)
-        }
+   const handleGoogleAuth = async () => {
+    if (!mobile) return setErr("Mobile number is required");
+
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+
+    try {
+        const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
+            fullname: result.user.displayName,
+            email: result.user.email,
+            mobile,
+            role
+        }, { withCredentials: true });
+
+        dispatch(setUserData(data));
+        navigate("/");
+    } catch (error) {
+        console.log(error);
+        setErr(error?.response?.data || "Something went wrong");
     }
+};
 
 
 
