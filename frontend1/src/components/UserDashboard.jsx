@@ -82,7 +82,9 @@ const UserDashboard = () => {
     <div className='w-screen min-h-screen flex flex-col gap-8 items-center bg-gradient-to-b from-[#fff9f6] to-[#ffece0] overflow-y-auto pb-10'>
       {/* Navbar */}
       <Nav />
-
+    <p className="fixed top-22 right-6 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg py-2 px-4 shadow-md font-medium text-sm max-w-xs z-50">
+  ⚡ Note: To see working, enter city: <span className="font-semibold">sabour</span>
+</p>
       {/* Search Results */}
        {searchItems && searchItems.length > 0 && (
         <div className='w-full max-w-6xl flex flex-col gap-5 items-start p-5 bg-white shadow-md rounded-2xl mt-4'>
