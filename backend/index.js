@@ -10,10 +10,9 @@ import userRouter from "./routes/userroutes.js"
 import itemRouter from "./routes/itemroutes.js"
 import shopRouter from "./routes/shoproutes.js"
 import orderRouter from "./routes/orderroutes.js"
-import http from "http"  
+import http from "http"
 import { Server } from "socket.io"
 import { socketHandler } from "./socket.js"
-
 
 const app=express()
 const server=http.createServer(app)
@@ -27,13 +26,12 @@ const io=new Server(server,{
 app.set("io",io)
 
 const port=process.env.PORT || 5000
+
 app.use(cors({
     origin:"https://quick-mart-2vqc.vercel.app",
     credentials:true
-     
-
-
 }))
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth",authRouter)
@@ -42,10 +40,11 @@ app.use("/api/shop",shopRouter)
 app.use("/api/item",itemRouter)
 app.use("/api/order",orderRouter)
 
-
 socketHandler(io)
 
-server.listen(port,()=>{
-    connectDb();
-    console.log(`server started port  at port ${port}`)
-})
+// ✅ CONNECT DB FIRST then start server
+connectDb().then(() => {
+    server.listen(port, () => {
+        console.log(`✅ Server running on port ${port}`);
+    });
+});
