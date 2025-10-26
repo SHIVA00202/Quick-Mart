@@ -19,7 +19,7 @@ const app=express()
 const server=http.createServer(app)
 const io=new Server(server,{
     cors:{
-        origin:"https://quick-mart-2vqc.vercel.app/signin",
+        origin:"https://quick-mart-2vqc.vercel.app",
         credentials:true,
         methods:['POST','GET']
     }
@@ -28,7 +28,7 @@ app.set("io",io)
 
 const port=process.env.PORT || 5000
 app.use(cors({
-    origin:"https://quick-mart-2vqc.vercel.app/signin",
+    origin:"https://quick-mart-2vqc.vercel.app",
     credentials:true
      
 
