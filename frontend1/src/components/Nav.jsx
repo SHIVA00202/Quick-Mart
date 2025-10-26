@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
+import { IoSearchOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5"; // close icon
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setSearchItems, setUserData } from '../redux/userSlice';
+import { setCurrentCity, setSearchItems, setUserData } from '../redux/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { serverUrl } from '../App';
+import { setLocation } from '../redux/mapSlice';
 
 function Nav() {
   const { userData ,currentCity,cartItems} = useSelector(state => state.user)
   const [showInfo, setShowInfo] = useState(false)
   const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [addressInput, setAddressInput] = useState("")
   const [query,setQuery]=useState("")
   const dispatch=useDispatch()
   const navigate=useNavigate()
@@ -25,10 +28,24 @@ function Nav() {
             console.log(error)
         }
     }
+   
+    const getLatLngByAddress = async () => {
+        try {
+          const result = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(addressInput)}&apiKey=${"f7e3db0551cb4488bc4dca19cc686f56"}`)
+          const { lat, lon } = result.data.features[0].properties
+          dispatch(setLocation({ lat, lon }))
+          const cityResult=await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${"f7e3db0551cb4488bc4dca19cc686f56"}`)
+          const city=cityResult?.data?.results[0]?.city||cityResult?.data?.results[0]?.town||cityResult?.data?.results[0]?.village
+          dispatch(setCurrentCity(city))
+        } catch (error) {
+          console.log(error)
+        }
+      }
     const handleSearchItems=async () => {
       try {
         const result=await axios.get(`${serverUrl}/api/item/search-items?query=${query}&city=${currentCity}`,{withCredentials:true})
     dispatch(setSearchItems(result.data))
+
       } catch (error) {
         console.log(error)
       }
@@ -42,13 +59,16 @@ handleSearchItems()
         }
 
     },[query])
+    
+   
+
 
   return (
     <div className='w-full h-[80px] flex items-center justify-between px-[20px] fixed top-0 z-[9999] bg-[#fff9f6] shadow-md'>
       
       {/* Left: Logo */}
       <h1 className="text-3xl font-bold text-[#ff4d2d] tracking-wide">
-        Vingo
+        FoodFleet 
       </h1>
 
       {/* Center: Location + Search (hidden on small) */}
@@ -56,8 +76,10 @@ handleSearchItems()
         {/* Location Box */}
         <div className="w-[160px] h-[50px] bg-white shadow-lg rounded-full flex items-center px-[15px] gap-[10px]">
           <FaLocationDot size={20} className="text-[#ff4d2d]" />
-          <span className="truncate text-gray-600 text-sm font-medium">{currentCity}</span>
+          <button className="truncate text-gray-600 text-sm font-medium" >{currentCity}</button>
         </div>
+        <input type="text" className='flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff4d2d]' placeholder='Enter Your Delivery Address..' value={addressInput} onChange={(e) => setAddressInput(e.target.value)} />
+         <button className='bg-[#ff4d2d] hover:bg-[#e64526] text-white px-3 py-2 rounded-lg flex items-center justify-center' onClick={getLatLngByAddress}><IoSearchOutline size={17} /></button>
 
         {/* Search Box */}
         <div className="w-[280px] h-[50px] bg-white shadow-lg rounded-full items-center px-[15px] gap-[10px] hidden md:flex">
