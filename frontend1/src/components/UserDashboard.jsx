@@ -31,17 +31,11 @@ const UserDashboard = () => {
     }
   }
 
-  // Set initial items
-  useEffect(() => {
-  // Set initial items
-  setUpdatedItemsList(itemsInMyCity || []);
-
-  // Prevent infinite reload loop
-  if (!sessionStorage.getItem("hasReloaded")) {
-    sessionStorage.setItem("hasReloaded", "true");
+ useEffect(() => {
+    setUpdatedItemsList(itemsInMyCity || [])
     window.location.reload();
-  }
-}, [itemsInMyCity]);
+  }, [itemsInMyCity])
+
 
 
 
