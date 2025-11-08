@@ -33,8 +33,17 @@ const UserDashboard = () => {
 
   // Set initial items
   useEffect(() => {
-    setUpdatedItemsList(itemsInMyCity || [])
-  }, [itemsInMyCity])
+  // Set initial items
+  setUpdatedItemsList(itemsInMyCity || []);
+
+  // Prevent infinite reload loop
+  if (!sessionStorage.getItem("hasReloaded")) {
+    sessionStorage.setItem("hasReloaded", "true");
+    window.location.reload();
+  }
+}, [itemsInMyCity]);
+
+
 
   // Update scroll buttons visibility
   const updateScrollButtons = (ref, setLeft, setRight) => {
