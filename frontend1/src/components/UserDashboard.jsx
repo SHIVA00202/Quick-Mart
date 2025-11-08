@@ -31,23 +31,14 @@ const UserDashboard = () => {
     }
   };
 
-  // ✅ Update items when available (no infinite reload)
-  useEffect(() => {
-    setUpdatedItemsList(itemsInMyCity || []);
-  }, [itemsInMyCity]);
-
-  /*
-  ⚠️ If you *really* want a one-time reload, use this instead:
+  // ✅ Update items when Redux updates (no reload)
   useEffect(() => {
     if (itemsInMyCity && itemsInMyCity.length > 0) {
       setUpdatedItemsList(itemsInMyCity);
-      if (!sessionStorage.getItem("hasReloaded")) {
-        sessionStorage.setItem("hasReloaded", "true");
-        window.location.reload();
-      }
+    } else {
+      setUpdatedItemsList([]); // handle empty city case
     }
   }, [itemsInMyCity]);
-  */
 
   // ✅ Update scroll buttons visibility
   const updateScrollButtons = (ref, setLeft, setRight) => {
@@ -92,7 +83,7 @@ const UserDashboard = () => {
   }, [categories, shopInMyCity]);
 
   return (
-    <div className="w-screen min-h-screen flex flex-col gap-8 items-center bg-gradient-to-b from-[#fff9f6] to-[#ffece0] overflow-y-auto pb-10">
+    <div className='w-screen min-h-screen flex flex-col gap-8 items-center bg-gradient-to-b from-[#fff9f6] to-[#ffece0] overflow-y-auto pb-10'>
       {/* Navbar */}
       <Nav />
 
@@ -103,11 +94,11 @@ const UserDashboard = () => {
 
       {/* Search Results */}
       {searchItems && searchItems.length > 0 && (
-        <div className="w-full max-w-6xl flex flex-col gap-5 items-start p-5 bg-white shadow-md rounded-2xl mt-4">
-          <h1 className="text-gray-900 text-2xl sm:text-3xl font-semibold border-b border-gray-200 pb-2">
+        <div className='w-full max-w-6xl flex flex-col gap-5 items-start p-5 bg-white shadow-md rounded-2xl mt-4'>
+          <h1 className='text-gray-900 text-2xl sm:text-3xl font-semibold border-b border-gray-200 pb-2'>
             Search Results
           </h1>
-          <div className="w-full h-auto flex flex-wrap gap-6 justify-center">
+          <div className='w-full h-auto flex flex-wrap gap-6 justify-center'>
             {searchItems.map(item => <FoodCard data={item} key={item._id} />)}
           </div>
         </div>
@@ -115,18 +106,18 @@ const UserDashboard = () => {
 
       {/* Categories Section */}
       <div className="w-full max-w-6xl flex flex-col gap-5 items-start px-4 sm:px-6">
-        <h1 className="text-gray-800 text-2xl sm:text-3xl font-semibold">Inspiration for your first order</h1>
-        <div className="w-full relative">
+        <h1 className='text-gray-800 text-2xl sm:text-3xl font-semibold'>Inspiration for your first order</h1>
+        <div className='w-full relative'>
           {showLeftCateButton && (
             <button
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10"
+              className='absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10'
               onClick={() => scroll(cateScrollRef, 'left')}
             >
               <FaCircleChevronLeft size={24} />
             </button>
           )}
 
-          <div className="w-full flex overflow-x-auto gap-4 py-3 scrollbar-hide" ref={cateScrollRef}>
+          <div className='w-full flex overflow-x-auto gap-4 py-3 scrollbar-hide' ref={cateScrollRef}>
             {categories.map((cate, index) => (
               <CategoryCard
                 key={index}
@@ -139,7 +130,7 @@ const UserDashboard = () => {
 
           {showRightCateButton && (
             <button
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10"
+              className='absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10'
               onClick={() => scroll(cateScrollRef, 'right')}
             >
               <FaCircleChevronRight size={24} />
@@ -149,27 +140,29 @@ const UserDashboard = () => {
       </div>
 
       {/* Shops Section */}
-      <div className="w-full max-w-6xl flex flex-col gap-5 items-start px-4 sm:px-6">
-        <h1 className="text-gray-800 text-2xl sm:text-3xl font-semibold">Best Shops in {currentCity}</h1>
-        <div className="w-full relative">
+      <div className='w-full max-w-6xl flex flex-col gap-5 items-start px-4 sm:px-6'>
+        <h1 className='text-gray-800 text-2xl sm:text-3xl font-semibold'>Best Shops in {currentCity}</h1>
+        <div className='w-full relative'>
           {showLeftShopButton && (
             <button
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10"
+              className='absolute left-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10'
               onClick={() => scroll(shopScrollRef, 'left')}
             >
               <FaCircleChevronLeft size={24} />
             </button>
           )}
 
-          <div className="w-full flex overflow-x-auto gap-4 py-3 scrollbar-hide" ref={shopScrollRef}>
-            {shopInMyCity?.length > 0 ? shopInMyCity.map(shop => (
-              <CategoryCard
-                key={shop._id}
-                name={shop.name}
-                image={shop.image}
-                onClick={() => navigate(`/shop/${shop._id}`)}
-              />
-            )) : (
+          <div className='w-full flex overflow-x-auto gap-4 py-3 scrollbar-hide' ref={shopScrollRef}>
+            {shopInMyCity?.length > 0 ? (
+              shopInMyCity.map(shop => (
+                <CategoryCard
+                  key={shop._id}
+                  name={shop.name}
+                  image={shop.image}
+                  onClick={() => navigate(`/shop/${shop._id}`)}
+                />
+              ))
+            ) : (
               <div className="flex flex-col items-center justify-center w-full py-8 gap-6 bg-gradient-to-br from-[#edd1bb] to-[#f9f4f0] rounded-3xl shadow-md">
                 <p className="text-gray-600 text-center text-xl sm:text-2xl font-semibold">No shops available</p>
                 <div className="w-96 h-96 bg-white rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden animate-bounce-slow">
@@ -182,7 +175,7 @@ const UserDashboard = () => {
 
           {showRightShopButton && (
             <button
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10"
+              className='absolute right-0 top-1/2 -translate-y-1/2 bg-[#ff4d2d] text-white p-3 rounded-full shadow-lg hover:bg-[#e64528] transition-all z-10'
               onClick={() => scroll(shopScrollRef, 'right')}
             >
               <FaCircleChevronRight size={24} />
@@ -192,12 +185,12 @@ const UserDashboard = () => {
       </div>
 
       {/* Suggested Food Items */}
-      <div className="w-full max-w-6xl flex flex-col gap-5 items-start px-4 sm:px-6">
-        <h1 className="text-gray-800 text-2xl sm:text-3xl font-semibold">Suggested Food Items</h1>
-        <div className="w-full flex flex-wrap gap-6 justify-center">
-          {updatedItemsList?.length > 0 ? updatedItemsList.map(item => (
-            <FoodCard key={item._id} data={item} />
-          )) : (
+      <div className='w-full max-w-6xl flex flex-col gap-5 items-start px-4 sm:px-6'>
+        <h1 className='text-gray-800 text-2xl sm:text-3xl font-semibold'>Suggested Food Items</h1>
+        <div className='w-full flex flex-wrap gap-6 justify-center'>
+          {updatedItemsList?.length > 0 ? (
+            updatedItemsList.map(item => <FoodCard key={item._id} data={item} />)
+          ) : (
             <div className="flex flex-col items-center justify-center w-full py-8 gap-6 bg-gradient-to-br from-[#fff5ee] to-[#ffe3d6] rounded-3xl shadow-xl">
               <p className="text-gray-600 text-center text-xl sm:text-2xl font-semibold">No food items found</p>
               <div className="w-96 h-96 bg-white rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden animate-bounce-slow">
