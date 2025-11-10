@@ -464,3 +464,35 @@ System.Threading.Channels.ChannelClosedException: The channel has been closed.
 2025-11-09 00:10:50.740 +05:30 [WRN] No ConfigurationItems have been defined, configuration won't surface any configuration from the client!
 2025-11-09 00:10:50.764 +05:30 [DBG] Finished: Routing Notification initialized in 67ms
 2025-11-09 00:10:50.764 +05:30 [DBG] Finished: Processing notification initialized in 68ms
+2025-11-10 01:19:57.196 +05:30 [DBG] Finding descriptors for $/setTrace
+2025-11-10 01:19:57.457 +05:30 [DBG] Swapping from "Serial" to "Parallel"
+2025-11-10 01:19:57.460 +05:30 [DBG] Completing existing request process type "Serial"
+2025-11-10 01:19:57.512 +05:30 [DBG] Queueing "Parallel":$/setTrace request for processing
+2025-11-10 01:19:57.519 +05:30 [DBG] Starting: Processing notification $/setTrace
+2025-11-10 01:19:57.521 +05:30 [DBG] Starting: Routing Notification $/setTrace
+2025-11-10 01:19:57.522 +05:30 [VRB] Converting params for Notification $/setTrace to OmniSharp.Extensions.LanguageServer.Protocol.Models.SetTraceParams
+2025-11-10 01:19:57.556 +05:30 [DBG] Finished: Routing Notification $/setTrace in 34ms
+2025-11-10 01:19:57.557 +05:30 [DBG] Finished: Processing notification $/setTrace in 36ms
+2025-11-10 01:44:37.061 +05:30 [DBG] Finding descriptors for $/setTrace
+2025-11-10 01:44:37.101 +05:30 [DBG] Queueing "Parallel":$/setTrace request for processing
+2025-11-10 01:44:37.106 +05:30 [DBG] Starting: Processing notification $/setTrace
+2025-11-10 01:44:37.106 +05:30 [DBG] Starting: Routing Notification $/setTrace
+2025-11-10 01:44:37.108 +05:30 [VRB] Converting params for Notification $/setTrace to OmniSharp.Extensions.LanguageServer.Protocol.Models.SetTraceParams
+2025-11-10 01:44:37.173 +05:30 [DBG] Finished: Routing Notification $/setTrace in 64ms
+2025-11-10 01:44:37.175 +05:30 [DBG] Finished: Processing notification $/setTrace in 68ms
+2025-11-10 14:50:47.881 +05:30 [DBG] Finding descriptors for shutdown
+2025-11-10 14:50:48.024 +05:30 [DBG] Swapping from "Parallel" to "Serial"
+2025-11-10 14:50:48.038 +05:30 [DBG] Cancelling any outstanding requests (switch from parallel to serial)
+2025-11-10 14:50:48.050 +05:30 [DBG] Completing existing request process type "Parallel"
+2025-11-10 14:50:48.070 +05:30 [DBG] Queueing "Serial":shutdown:1 request for processing
+2025-11-10 14:50:48.106 +05:30 [DBG] Starting: Processing request shutdown 1
+2025-11-10 14:50:48.120 +05:30 [DBG] Starting: Routing Request (1) shutdown
+2025-11-10 14:50:48.124 +05:30 [VRB] Converting params for Request (1) shutdown to OmniSharp.Extensions.LanguageServer.Protocol.Models.ShutdownParams
+2025-11-10 14:50:48.127 +05:30 [VRB] Converting params for Notification shutdown to OmniSharp.Extensions.LanguageServer.Protocol.Models.ShutdownParams
+2025-11-10 14:50:48.333 +05:30 [VRB] Response value was null
+2025-11-10 14:50:48.338 +05:30 [DBG] Finished: Routing Request (1) shutdown in 214ms
+2025-11-10 14:50:48.341 +05:30 [DBG] Finished: Processing request shutdown 1 in 224ms
+2025-11-10 14:50:48.990 +05:30 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)

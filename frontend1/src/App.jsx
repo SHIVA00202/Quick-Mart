@@ -25,7 +25,7 @@ import { io } from 'socket.io-client'
 import { setSocket } from './redux/userSlice'
 
 
-export const serverUrl="https://quick-mart-2-rlt3.onrender.com"
+export const serverUrl="http://localhost:8000"
 console.log("hello ")
 const App = () => {
   const dispatch=useDispatch()
