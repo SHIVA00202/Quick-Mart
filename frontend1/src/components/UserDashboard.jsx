@@ -9,19 +9,32 @@ import { useNavigate } from 'react-router-dom';
 import shoppimage from '../assets/shopregister.png';
 import itemimage from '../assets/itemavial.png';
 
-const SCROLL_AMOUNT = 300 // Smooth scroll step
+const SCROLL_AMOUNT = 300; // Smooth scroll step
 
 const UserDashboard = () => {
   const cateScrollRef = useRef();
   const shopScrollRef = useRef();
 
-  const { currentCity, shopInMyCity, itemsInMyCity, searchItems } = useSelector((state) => state.user);
+  const { currentCity, shopInMyCity, itemsInMyCity, searchItems } = useSelector(
+    (state) => state.user
+  );
+
   const [showLeftCateButton, setShowLeftCateButton] = useState(false);
   const [showRightCateButton, setShowRightCateButton] = useState(false);
   const [showLeftShopButton, setShowLeftShopButton] = useState(false);
   const [showRightShopButton, setShowRightShopButton] = useState(false);
   const [updatedItemsList, setUpdatedItemsList] = useState([]);
+
   const navigate = useNavigate();
+
+  // ✅ Force reload once when component mounts
+  useEffect(() => {
+    const hasReloaded = sessionStorage.getItem("hasReloaded");
+    if (!hasReloaded) {
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    }
+  }, []);
 
   // ✅ Filter by category
   const handleFilterByCategory = (category) => {
@@ -66,14 +79,16 @@ const UserDashboard = () => {
     const cateEl = cateScrollRef.current;
     const shopEl = shopScrollRef.current;
 
-    const handleCateScroll = () => updateScrollButtons(cateScrollRef, setShowLeftCateButton, setShowRightCateButton);
-    const handleShopScroll = () => updateScrollButtons(shopScrollRef, setShowLeftShopButton, setShowRightShopButton);
+    const handleCateScroll = () =>
+      updateScrollButtons(cateScrollRef, setShowLeftCateButton, setShowRightCateButton);
+    const handleShopScroll = () =>
+      updateScrollButtons(shopScrollRef, setShowLeftShopButton, setShowRightShopButton);
 
     if (cateEl) cateEl.addEventListener('scroll', handleCateScroll);
     if (shopEl) shopEl.addEventListener('scroll', handleShopScroll);
 
-      updateScrollButtons(cateScrollRef, setShowLeftCateButton, setShowRightCateButton)
-      updateScrollButtons(shopScrollRef, setShowLeftShopButton, setShowRightShopButton)
+    updateScrollButtons(cateScrollRef, setShowLeftCateButton, setShowRightCateButton);
+    updateScrollButtons(shopScrollRef, setShowLeftShopButton, setShowRightShopButton);
 
     return () => {
       if (cateEl) cateEl.removeEventListener('scroll', handleCateScroll);
@@ -81,7 +96,7 @@ const UserDashboard = () => {
     };
   }, [categories, shopInMyCity]);
 
-  // ✅ Debugging info (remove later if needed)
+  // ✅ Debug info (optional - remove for production)
   useEffect(() => {
     console.log("City:", currentCity);
     console.log("Shops:", shopInMyCity);
@@ -94,7 +109,9 @@ const UserDashboard = () => {
       <Nav />
 
       {/* Fixed Info Note */}
-      <p className="fixed top-22 right-6 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg py-2 px-4 shadow-md font-medium text-sm max-w-xs z-50 mt-1"> ⚡ Note: To see working, enter city: <span className="font-semibold">sabour</span> </p>
+      <p className="fixed top-22 right-6 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg py-2 px-4 shadow-md font-medium text-sm max-w-xs z-50 mt-1">
+        ⚡ Note: To see working, enter city: <span className="font-semibold">sabour</span>
+      </p>
 
       {/* Search Results */}
       {searchItems && searchItems.length > 0 && (
@@ -103,14 +120,18 @@ const UserDashboard = () => {
             Search Results
           </h1>
           <div className="w-full flex flex-wrap gap-6 justify-center">
-            {searchItems.map(item => <FoodCard data={item} key={item._id} />)}
+            {searchItems.map((item) => (
+              <FoodCard data={item} key={item._id} />
+            ))}
           </div>
         </div>
       )}
 
       {/* Categories Section */}
       <section className="w-full max-w-6xl flex flex-col gap-6 items-start px-4 sm:px-6">
-        <h1 className="text-gray-900 text-2xl sm:text-3xl font-semibold tracking-tight">Explore by Categories</h1>
+        <h1 className="text-gray-900 text-2xl sm:text-3xl font-semibold tracking-tight">
+          Explore by Categories
+        </h1>
         <div className="relative w-full">
           {showLeftCateButton && (
             <button
@@ -163,7 +184,7 @@ const UserDashboard = () => {
             className="w-full flex overflow-x-auto gap-5 py-4 scrollbar-hide scroll-smooth"
           >
             {shopInMyCity?.length > 0 ? (
-              shopInMyCity.map(shop => (
+              shopInMyCity.map((shop) => (
                 <CategoryCard
                   key={shop._id}
                   name={shop.name}
@@ -173,11 +194,15 @@ const UserDashboard = () => {
               ))
             ) : (
               <div className="flex flex-col items-center justify-center w-full py-8 gap-6 bg-gradient-to-br from-[#ffe0cf] to-[#fff6f3] rounded-3xl shadow-inner">
-                <p className="text-gray-600 text-center text-lg sm:text-xl font-medium">No shops available</p>
+                <p className="text-gray-600 text-center text-lg sm:text-xl font-medium">
+                  No shops available
+                </p>
                 <div className="w-80 h-80 bg-white rounded-2xl flex items-center justify-center shadow-lg overflow-hidden">
                   <img src={shoppimage} alt="No shops" className="w-72 h-72 object-contain" />
                 </div>
-                <p className="text-gray-400 text-sm sm:text-base">Try a different city or check back later.</p>
+                <p className="text-gray-400 text-sm sm:text-base">
+                  Try a different city or check back later.
+                </p>
               </div>
             )}
           </div>
@@ -194,19 +219,23 @@ const UserDashboard = () => {
 
       {/* Suggested Items */}
       <section className="w-full max-w-6xl flex flex-col gap-6 items-start px-4 sm:px-6">
-        <h1 className="text-gray-900 text-2xl sm:text-3xl font-semibold tracking-tight">Recommended for You</h1>
+        <h1 className="text-gray-900 text-2xl sm:text-3xl font-semibold tracking-tight">
+          Recommended for You
+        </h1>
         <div className="w-full flex flex-wrap gap-6 justify-center">
           {updatedItemsList?.length > 0 ? (
-            updatedItemsList.map(item => (
-              <FoodCard key={item._id} data={item} />
-            ))
+            updatedItemsList.map((item) => <FoodCard key={item._id} data={item} />)
           ) : (
             <div className="flex flex-col items-center justify-center w-full py-8 gap-6 bg-gradient-to-br from-[#fff5ee] to-[#ffe3d6] rounded-3xl shadow-lg">
-              <p className="text-gray-700 text-lg sm:text-xl font-semibold">No food items found</p>
+              <p className="text-gray-700 text-lg sm:text-xl font-semibold">
+                No food items found
+              </p>
               <div className="w-80 h-80 bg-white rounded-2xl flex items-center justify-center shadow-lg overflow-hidden">
                 <img src={itemimage} alt="No items" className="w-72 h-72 object-contain" />
               </div>
-              <p className="text-gray-400 text-sm sm:text-base">Try selecting another category or search again.</p>
+              <p className="text-gray-400 text-sm sm:text-base">
+                Try selecting another category or search again.
+              </p>
             </div>
           )}
         </div>
